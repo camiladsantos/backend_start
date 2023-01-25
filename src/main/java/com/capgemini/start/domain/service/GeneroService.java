@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.capgemini.start.domain.entity.Tipo;
-import com.capgemini.start.domain.repository.TipoRepository;
+import com.capgemini.start.domain.entity.Genero;
+import com.capgemini.start.domain.repository.GeneroRepository;
 import com.capgemini.start.domain.service.exceptions.ObjectAlreadyExistsException;
 import com.capgemini.start.domain.service.exceptions.ObjectNotFoundException;
 
@@ -17,39 +17,39 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class GeneroService extends AbstractService<Genero, Long> {
 	
-	private final TipoRepository repository;
+	private final GeneroRepository repository;
 	
 	@Override
-	protected JpaRepository<Tipo, Long> getRepository() {
+	protected JpaRepository<Genero, Long> getRepository() {
 		return this.repository;
 	}
 	
 	@Override
-	public List<Tipo> findAll() {
+	public List<Genero> findAll() {
 		return repository.findAll();
 	}
 	
 	@Override
-	public Tipo findById(Long id){
-		return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Tipo não encontrado"));
+	public Genero findById(Long id){
+		return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Genero não encontrado"));
 	}
 	
 	@Override
-	public Tipo insert(Tipo tipo) {
-		if (this.repository.existsByDescricaoIgnoreCase(tipo.getDescricao())){
-			throw new ObjectAlreadyExistsException("Já existe um tipo com esta descrição.");
+	public Genero insert(Genero genero) {
+		if (this.repository.existsByDescricaoIgnoreCase(genero.getDescricao())){
+			throw new ObjectAlreadyExistsException("Já existe um genero com esta descrição.");
 		}
-		tipo.setDataCriacao(new Date());
-		return this.repository.save(tipo);
+		genero.setDataCriacao(new Date());
+		return this.repository.save(genero);
 	}
 	
 	@Override
-	public Tipo update(Tipo tipo) {
-		if (this.repository.existsByIdNotAndDescricaoIgnoreCase(tipo.getId(), tipo.getDescricao())) {
-			throw new ObjectAlreadyExistsException("Já existe outro tipo com esta descrição.");
+	public Genero update(Genero genero) {
+		if (this.repository.existsByIdNotAndDescricaoIgnoreCase(genero.getId(), genero.getDescricao())) {
+			throw new ObjectAlreadyExistsException("Já existe outro genero com esta descrição.");
 		}
-		tipo.setDataAlteracao(new Date());
-		return this.repository.save(tipo);
+		genero.setDataAlteracao(new Date());
+		return this.repository.save(genero);
 	}
 
 }
